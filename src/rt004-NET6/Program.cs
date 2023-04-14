@@ -7,6 +7,8 @@ internal class Program
 {
   static void Main(string[] args)
   {
+    Logger log = new Logger();
+
     var parameters = ParamLoader.ParseInput(args[0]);
     ParamLoader.Load<TestScene>(new TestScene(), parameters);
 
