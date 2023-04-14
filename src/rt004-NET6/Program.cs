@@ -7,21 +7,24 @@ internal class Program
 {
   static void Main(string[] args)
   {
-    // Parameters.
-    // TODO: parse command-line arguments and/or your config file.
-    int wid = 600;
-    int hei = 450;
-    string fileName = "demo.pfm";
+    var parameters = ParamLoader.ParseInput(args[0]);
+    ParamLoader.Load<TestScene>(new TestScene(), parameters);
 
-    // HDR image.
-    FloatImage fi = new FloatImage(wid, hei, 3);
+    //// Parameters.
+    //// TODO: parse command-line arguments and/or your config file.
+    //int wid = 600;
+    //int hei = 450;
+    //string fileName = "demo.pfm";
 
-    // TODO: put anything interesting into the image.
-    // TODO: use fi.PutPixel() function, pixel should be a float[3] array [R, G, B]
+    //// HDR image.
+    //FloatImage fi = new FloatImage(wid, hei, 3);
 
-    //fi.SaveHDR(fileName);   // Doesn't work well yet...
-    fi.SavePFM(fileName);
+    //// TODO: put anything interesting into the image.
+    //// TODO: use fi.PutPixel() function, pixel should be a float[3] array [R, G, B]
 
-    Console.WriteLine("HDR image is finished.");
+    ////fi.SaveHDR(fileName);   // Doesn't work well yet...
+    //fi.SavePFM(fileName);
+
+    //Console.WriteLine("HDR image is finished.");
   }
 }

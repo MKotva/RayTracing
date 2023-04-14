@@ -2,6 +2,7 @@
   "profiles": {
     "rt004": {
       "commandName": "Project",
+      "commandLineArgs": "Name=MyName;Speed=0.7;Id=1;IsActive=true",
       "workingDirectory": "$(ProjectDir)"
     }
   }
