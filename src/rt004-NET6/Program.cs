@@ -1,4 +1,7 @@
-﻿using Util;
+﻿using System.Diagnostics;
+using System.Drawing;
+using System.Security.Cryptography;
+using Util;
 //using System.Numerics;
 
 namespace rt004;
@@ -12,21 +15,15 @@ internal class Program
     var parameters = ParamLoader.ParseInput(args[0]);
     ParamLoader.Load<TestScene>(new TestScene(), parameters);
 
-    //// Parameters.
-    //// TODO: parse command-line arguments and/or your config file.
-    //int wid = 600;
-    //int hei = 450;
-    //string fileName = "demo.pfm";
+    var fi = GenerateFrame(1024, 1024);
+    fi.SavePFM("test.pfm");
 
-    //// HDR image.
-    //FloatImage fi = new FloatImage(wid, hei, 3);
+    Trace.TraceInformation("HDR image created");
+    Trace.Flush();
+  }
 
-    //// TODO: put anything interesting into the image.
-    //// TODO: use fi.PutPixel() function, pixel should be a float[3] array [R, G, B]
-
-    ////fi.SaveHDR(fileName);   // Doesn't work well yet...
-    //fi.SavePFM(fileName);
-
-    //Console.WriteLine("HDR image is finished.");
+  public static FloatImage GenerateFrame(int width, int height)
+  {
+    return MandelBrotScene.GenerateImage(new FloatImage(width, height, 3), -2.0, -1.6, 1.0, 1.6, 1000);
   }
 }
