@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Security.Cryptography;
 using Util;
-//using System.Numerics;
 
 namespace rt004;
 
