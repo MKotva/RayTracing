@@ -9,7 +9,7 @@ using Util;
 
 namespace rt004
 {
-  internal static class MandelBrotScene
+    internal static class MandelBrotScene
   {
     public static FloatImage GenerateImage(FloatImage image, double xMin, double yMin, double xMax, double yMax, int iterLimit)
     {

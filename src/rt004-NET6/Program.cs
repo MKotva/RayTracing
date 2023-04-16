@@ -7,22 +7,15 @@ namespace rt004;
 
 internal class Program
 {
-  static void Main(string[] args)
-  {
-    Logger log = new Logger();
+    static void Main(string[] args)
+    {
+        Logger log = new Logger();
 
-    var parameters = ParamLoader.ParseInput(args[0]);
-    ParamLoader.Load<TestScene>(new TestScene(), parameters);
+        RenderController controller = new RenderController(2048, 2048);
+        controller.Generate();
 
-    var fi = GenerateFrame(1024, 1024);
-    fi.SavePFM("test.pfm");
+        Trace.TraceInformation("HDR image created");
+        Trace.Flush();
+    }
 
-    Trace.TraceInformation("HDR image created");
-    Trace.Flush();
-  }
-
-  public static FloatImage GenerateFrame(int width, int height)
-  {
-    return MandelBrotScene.GenerateImage(new FloatImage(width, height, 3), -2.0, -1.6, 1.0, 1.6, 1000);
-  }
 }
