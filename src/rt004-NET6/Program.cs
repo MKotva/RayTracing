@@ -11,7 +11,10 @@ internal class Program
     {
         Logger log = new Logger();
 
-        RenderController controller = new RenderController(2048, 2048);
+        var config = new ConfigDTO();
+        ParamLoader.Load(config, ParamLoader.ParseInput(args[0]));
+
+        RenderController controller = new RenderController(config.Width, config.Height);
         controller.Generate();
 
         Trace.TraceInformation("HDR image created");
