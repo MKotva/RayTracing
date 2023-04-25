@@ -12,6 +12,7 @@ namespace rt004
         public ISceneObject Object { get; set; }
         public Ray Ray { get; set; }
         public double Distance { get; set; }
+        public TransformMatrix Transform { get; set; }
 
         public Selection(ISceneObject sceneObject, Ray ray, double distance)
         {

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
+
 
 namespace rt004
 {
     public struct Ray
     {
-        public Vector Start;
-        public Vector Direction;
-        public Ray(Vector start, Vector direction)
+        public Vector3D Start;
+        public Vector3D Direction;
+        public Ray(Vector3D start, Vector3D direction)
         {
             Start = start;
             Direction = direction;

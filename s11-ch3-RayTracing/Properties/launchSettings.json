@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "rt004": {
+      "commandName": "Project",
+      "commandLineArgs": "Width=1024;Height=1024;ReflectionDepth=10",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}

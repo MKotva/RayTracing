@@ -14,8 +14,12 @@ internal class Program
         var config = new ConfigDTO();
         ParamLoader.Load(config, ParamLoader.ParseInput(args[0]));
 
-        RenderController controller = new RenderController(config.Width, config.Height);
-        controller.Generate();
+        RenderController controller = new RenderController(config.Width, config.Height, config.ReflectionDepth, config.AntiAlias);
+
+        if(config.Parallel)
+            controller.GenerateParallel();
+        else
+            controller.Generate();
 
         Trace.TraceInformation("HDR image created");
         Trace.Flush();

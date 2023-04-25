@@ -10,7 +10,9 @@ namespace rt004
     {
         public int Width { get; set; }
         public int Height { get; set; }
-
+        public int ReflectionDepth { get; set; }
+        public bool AntiAlias { get; set; }
+        public bool Parallel { get; set; }
         public ConfigDTO() { }
     }
 }

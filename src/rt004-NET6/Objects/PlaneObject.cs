@@ -1,12 +1,14 @@
-﻿namespace rt004.Objects
-{
-    class Plane : ISceneObject
-    {
-        public IMaterial Material;
-        public Vector Normal;
-        public double Offset;
+﻿using System.Numerics;
 
-        public Plane(Vector normal, double offset, IMaterial material)
+namespace rt004
+{
+    class MyPlane : ISceneObject
+    {
+        public IMaterial Material { get; set; }
+        public Vector3D Normal { get; set; }
+        public float Offset { get; set; }
+
+        public MyPlane(Vector3D normal, float offset, IMaterial material)
         {
             Normal = normal;
             Offset = offset;
@@ -15,13 +17,13 @@
 
         public Selection Intersect(Ray ray)
         {
-            var denom = Vector.Dot(Normal, ray.Direction);
+            var denom = Vector3D.Dot(Normal, ray.Direction);
             if (denom <= 0)
-                return new Selection(this, ray, (Vector.Dot(Normal, ray.Start) + Offset) / -denom);
+                return new Selection(this, ray, (Vector3D.Dot(Normal, ray.Start) + Offset) / -denom);
             return null;
         }
 
-        public Vector GetNormal(Vector pos)
+        public Vector3D GetNormal(Vector3D pos)
         {
             return Normal;
         }
