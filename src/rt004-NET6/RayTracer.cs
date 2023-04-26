@@ -1,4 +1,5 @@
-﻿using Util;
+﻿using System.Diagnostics;
+using Util;
 
 namespace rt004
 {
@@ -22,7 +23,7 @@ namespace rt004
         }
 
         public void Render(FloatImage img)
-        {
+        {   
             Camera camera = _loadedScene.Camera;
             for (int y = 0; y < Height; y++)
             {
@@ -71,6 +72,7 @@ namespace rt004
 
         private Color RenderAntiAlias(int x, int y, Camera camera)
         {
+
             double delta = 0.5000000;
             if (x > 0 && y > 0 && x < Width - 1 && y < Height - 1)
             {

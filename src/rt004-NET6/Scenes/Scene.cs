@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using rt004.Materials;
 using rt004.Objects;
+using System.Diagnostics;
 using System.Dynamic;
 using System.Numerics;
 using System.Text.Json.Serialization;
@@ -20,6 +21,9 @@ namespace rt004
 
         public void LoadDefaultcScene()
         {
+            Trace.TraceInformation("Setting up default scene");
+            Trace.Flush();
+
             Lights = new LightSource[2] { new LightSource(new Vector3D(-2, 2.5f, 0), new Color(0.5f, 0.5f, 0.5f, 0)), new LightSource(new Vector3D(2, 1.5f, 0), new Color(0.4f, 0.4f, 0.4f, 0)) };
             var transform = new TransformMatrix(new List<ISceneObject>(){ new MyPlane(new Vector3D(0, 1, 0), 0, new ChessBoardMaterial())});
 
@@ -46,6 +50,8 @@ namespace rt004
 
         public static void ToJson(Scene scene, string filename)
         {
+            Trace.TraceInformation("Saving scene to JSON");
+            Trace.Flush();
             string json = JsonConvert.SerializeObject(scene, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Objects
@@ -58,17 +64,37 @@ namespace rt004
 
         public static Scene FromJson(string filename)
         {
+            Trace.TraceInformation("Loading scene from json.");
+            Trace.Flush();
+
             string json;
             using (var sr = new StreamReader(filename))
             {
                 json = sr.ReadToEnd();
             }
-
-            var scene = (Scene)JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+            if (json == null || json == "")
             {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
+                Trace.TraceInformation($"Loading from JSON failed, file is invalid or empty.");
+                Trace.Flush();
+                return new Scene();
+            }
 
+            Scene scene;
+            try
+            {
+                scene = (Scene) JsonConvert.DeserializeObject(json, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+            } catch (Exception ex)
+            {
+                Trace.TraceInformation($"Loading from JSON Failed due to {ex.Message}");
+                Trace.Flush();
+                return new Scene();
+            }
+
+            Trace.TraceInformation($"Loading from JSON was sucessfull.");
+            Trace.Flush();
             return scene;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -29,11 +30,20 @@ namespace rt004
             Scene.ToJson(scene, "test.json");
             scene = Scene.FromJson("test.json");
 
+            if(shouldAntiAlias)
+            {
+                Trace.TraceInformation("Rendering with Anti-Alias.");
+                Trace.Flush();
+            }
+
             RayTracer = new RayTracer(width, height, ReflectionDepth, shouldAntiAlias, scene);
         }
 
         public void Generate()
         {
+            Trace.TraceInformation("Single thread rendering");
+            Trace.Flush();
+
             var fi = new FloatImage(Width, Height, 3);
             RayTracer.Render(fi);
             fi.SavePFM("testLightScene1.pfm");
@@ -41,6 +51,9 @@ namespace rt004
 
         public void GenerateParallel()
         {
+            Trace.TraceInformation("Parallel rendering");
+            Trace.Flush();
+
             var fi = new FloatImage(Width, Height, 3);
             RayTracer.RenderParallel(fi, new ParallelOptions() {MaxDegreeOfParallelism = Environment.ProcessorCount});
             fi.SavePFM("testLightScene1.pfm");
