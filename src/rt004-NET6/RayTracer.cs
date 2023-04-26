@@ -104,7 +104,7 @@ namespace rt004
 
         private Color CastRay(Vector3D start, Vector3D direction, int depth)
         {
-            var intersect = Intersect(new Ray(start, direction), _loadedScene);
+            var intersect = Intersect(new Ray(start, direction), _loadedScene, true);
             if (intersect == null)
             {
                 return new Color(0, 0, 0, 0);
@@ -115,7 +115,7 @@ namespace rt004
 
         private double CastShadowRay(Vector3D start, Vector3D direction)
         {
-            var intersect = Intersect(new Ray(start, direction), _loadedScene);
+            var intersect = Intersect(new Ray(start, direction), _loadedScene, false);
             if (intersect == null)
             {
                 return 0;
@@ -124,7 +124,7 @@ namespace rt004
             return intersect.Distance;
         }
 
-        private Selection Intersect(Ray ray, Scene scene)
+        private Selection Intersect(Ray ray, Scene scene, bool shouldTransform)
         {
             Selection min = null;
 
@@ -132,9 +132,13 @@ namespace rt004
             {
                 foreach (var obj in transform.TransformedObjects)
                 {
-                    var invertedMatrix = transform.Inverted.GetOpenTKMatrix();
-                    var transformedRay = new Ray(Vector3D.Transform(ray.Start, invertedMatrix),
-                        Vector3D.Normalize(Vector3D.TransformNormal(ray.Direction, invertedMatrix)));
+                    Ray transformedRay = new Ray(ray.Start, ray.Direction);
+                    if (shouldTransform)
+                    {
+                        var invertedMatrix = transform.Inverted.GetOpenTKMatrix();
+                        transformedRay = new Ray(Vector3D.Transform(ray.Start, invertedMatrix),
+                            Vector3D.Normalize(Vector3D.TransformNormal(ray.Direction, invertedMatrix)));
+                    }   
 
                     var intersect = obj.Intersect(transformedRay);
                     if (intersect != null)

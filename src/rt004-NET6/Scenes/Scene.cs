@@ -30,12 +30,14 @@ namespace rt004
             transform1.SetScaling(1.2, 1.2, 1.2);
             Transforms.Add(transform1);
 
-            var transform2 = new TransformMatrix(new List<ISceneObject>() { new Sphere(new Vector3D(-0.5f, 1.5f, 0), 0.5, new TransparentMaterial()) });
+            var transform2 = new TransformMatrix(new List<ISceneObject>() { new Sphere(new Vector3D(-1.5f, 1.5f, -1.5), 0.5, new TransparentMaterial()) });
             Transforms.Add(transform2);
 
             var transform3 = new TransformMatrix(new List<ISceneObject>() { new CubeObject(new Vector3D(0, 0, 0), new Vector3D(0.5, 0.5, 0.5), new CubeMaterial()) });
-            transform3.SetTranslation(-0.2, 0.5, 0.3);
-            transform3.SetScaling(0.8, 1, 0.8);
+            transform3.SetTranslation(-0.8, 0.2, 0);
+            //transform3.SetScaling(0.8, 1, 0.8);
+            transform3.SetYRotation(0.4);
+            transform3.SetZRotation(0.4);
             Transforms.Add(transform3);
 
 
@@ -69,28 +71,5 @@ namespace rt004
 
             return scene;
         }
-
-        //public string ToString()
-        //{
-        //    string output = $"Lights=[{GetLightsString()}\n]";
-        //    output += $"Camera=[{Camera.ToString()}]";
-        //    return output;
-        //}
-
-        //private string GetLightsString()
-        //{
-        //    string output = "";
-        //    foreach (var light in Lights)
-        //    {
-        //        output += $"{light.ToString()};";
-        //    }
-        //    return output;
-        //}
-
-        //private string GetTransformObjectString()
-        //{
-        //    string output = "";
-        //    return output;
-        //}
     }
 }

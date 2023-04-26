@@ -28,7 +28,7 @@ namespace rt004
             TransformedObjects = sceneObjects;
             Matrix = new Matrix();
             Inverted = new Matrix();
-            NormalMatrix = new Matrix();
+            //NormalMatrix = new Matrix();
         }
 
         public static TransformMatrix FromOpenTk(Matrix4x4 matrix4D)
@@ -44,7 +44,7 @@ namespace rt004
             Matrix4x4 inverted;
             Matrix4x4.Invert(Matrix.GetOpenTKMatrix(), out inverted);
 
-            SetNormalMatrix(inverted);
+            //SetNormalMatrix(inverted);
             this.Inverted = new Matrix(inverted);
         }
 
@@ -56,10 +56,16 @@ namespace rt004
 
         public void SetTranslation(double x, double y, double z)
         {
-            Matrix.M41 = x;
-            Matrix.M42 = y;
-            Matrix.M43 = z;
+            var matrix = new Matrix4x4(1, 0, 0, 0,
+                                       0, 1, 0, 0,
+                                       0, 0, 1, 0,
+                                       (float)x, (float)y, (float)z, 1);
 
+            Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
+
+            //Matrix.M41 = x;
+            //Matrix.M42 = y;
+            //Matrix.M43 = z;
             SetInverted();
         }
 
@@ -73,9 +79,15 @@ namespace rt004
         {
             if (x != 0 && y != 0 && z != 0)
             {
-                Matrix.M11 = x;
-                Matrix.M22 = y;
-                Matrix.M33 = z;
+                var matrix = new Matrix4x4((float)x, 0, 0, 0,
+                                           0, (float)y, 0, 0,
+                                           0, 0, (float)z, 0,
+                                           0, 0, 0, 1);
+
+                Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
+                //Matrix.M11 = x;
+                //Matrix.M22 = y;
+                //Matrix.M33 = z;
                 SetInverted();
             }
         }
@@ -87,52 +99,86 @@ namespace rt004
 
         public void SetShear(double yx, double zx, double xy, double zy, double xz, double yz)
         {
-            Matrix.M12 = yx;
-            Matrix.M13 = zx;
+            var matrix = new Matrix4x4(1, (float)yx, (float) xz, 0,
+                                       (float)xy, 1, (float) zy, 0,
+                                       (float)xz, (float) yz, 1, 0,
+                                       0, 0, 0, 1);
 
-            Matrix.M21 = xy;
-            Matrix.M23 = zy;
+            Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
 
-            Matrix.M31 = xz;
-            Matrix.M32 = yz;
+            //Matrix.M12 = yx;
+            //Matrix.M13 = zx;
+
+            //Matrix.M21 = xy;
+            //Matrix.M23 = zy;
+
+            //Matrix.M31 = xz;
+            //Matrix.M32 = yz;
 
             SetInverted();
         }
 
         public void SetXRotation(double angle)
         {
-            var cosAngle = Math.Cos(angle);
-            Matrix.M22 += cosAngle;
-            Matrix.M33 += cosAngle;
+            //var cosAngle = Math.Cos(angle);
+            //Matrix.M22 += cosAngle;
+            //Matrix.M33 += cosAngle;
 
-            var sinAngle = Math.Sin(angle);
-            Matrix.M23 += -1 * sinAngle;
-            Matrix.M33 += sinAngle;
+            //var sinAngle = Math.Sin(angle);
+            //Matrix.M23 += -1 * sinAngle;
+            //Matrix.M32 += sinAngle;
+
+            var cosAngle = (float)Math.Cos(angle);
+            var sinAngle = (float)Math.Sin(angle);;
+
+            var matrix = new Matrix4x4(1, 0, 0, 0,
+                                       0, cosAngle, -1 * sinAngle, 0,
+                                       0, sinAngle, cosAngle, 0,
+                                       0, 0, 0, 1);
+
+            Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
 
             SetInverted();
         }
         public void SetYRotation(double angle)
         {
-            var cosAngle = Math.Cos(angle);
-            Matrix.M11 += cosAngle;
-            Matrix.M33 += cosAngle;
+            //var cosAngle = Math.Cos(angle);
+            //Matrix.M11 += cosAngle;
+            //Matrix.M33 += cosAngle;
 
-            var sinAngle = Math.Sin(angle);
-            Matrix.M31 += -sinAngle;
-            Matrix.M13 += sinAngle;
+            //var sinAngle = Math.Sin(angle);
+            //Matrix.M31 += -sinAngle;
+            //Matrix.M13 += sinAngle;
+
+            var cosAngle = (float) Math.Cos(angle);
+            var sinAngle = (float) Math.Sin(angle);
+            var matrix = new Matrix4x4(cosAngle, 0, sinAngle, 0,
+                                       0, 1, 0, 0,
+                                       -1 * sinAngle, 0, cosAngle, 0,
+                                       0, 0, 0, 1);
+
+            Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
 
             SetInverted();
         }
         public void SetZRotation(double angle)
         {
-            var cosAngle = Math.Cos(angle);
-            Matrix.M11 += cosAngle;
-            Matrix.M22 += cosAngle;
+            //var cosAngle = Math.Cos(angle);
+            //Matrix.M11 += cosAngle;
+            //Matrix.M22 += cosAngle;
 
-            var sinAngle = Math.Sin(angle);
-            Matrix.M12 += -sinAngle;
-            Matrix.M21 += sinAngle;
+            //var sinAngle = Math.Sin(angle);
+            //Matrix.M12 += -sinAngle;
+            //Matrix.M21 += sinAngle;
 
+            var cosAngle = (float) Math.Cos(angle);
+            var sinAngle = (float) Math.Sin(angle);
+            var matrix = new Matrix4x4(cosAngle, -1 * sinAngle, 0, 0,
+                                       sinAngle, cosAngle, 0, 0,
+                                       0, 0, 1, 0,
+                                       0, 0, 0, 1);
+
+            Matrix = new Matrix(Matrix.GetOpenTKMatrix() * matrix);
             SetInverted();
         }
     }
